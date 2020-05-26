@@ -1,0 +1,238 @@
+Practica: https://stackblitz.com/
+Curso: https://www.youtube.com/watch?v=nN0DrXR893M&list=PLBcjgM474xVKgScTCWc9P-d6ZzIMfLyqz
+
+React: 
+- Es una librería de javascript y se utiliza para crear interfaces. Se puede decir que es la “V” en el MVC.
+- Es basado en componentes, encapsular la funcionalidad y el estado. 
+- React maneja el virtual dom, acelera las actualizaciones de la pagina web, ocupa menos recursos para hacer cosas mas rápido
+- Ejemplo: cada componente es una pieza de lego, juntos conforman piezas(componentes) mas avanzados
+
+——— 
+Componentes: se dividin en dos grupos:
+- Sencillos: que no se conforman de otro componentes, son ellos mismos
+- Complejos: son un conjunto de componentes
+
+Los componentes pueden ser representados en codigo como:
+
+- Funcional
+function MiComponente(){
+  return <p>hola mundo soy funcional</p>;
+}
+
+- Clases (alternativa de javascript)
+class MiComponenteDeClase extends Component{
+  render(){
+    return <p>hola mundo soy componente de tipo clase</p>;
+  }
+}
+
+——— 
+Props: se conoce como las propiedades de creación del componente (inicialización), es un objeto que se le pasa al componente. 
+Una característica es que es readOnly (solo lectura), el componente no puede modificarlo. Sintaxis:
+
+function A(props){
+  return <p>Hola {props.nombre}</p>;
+}
+
+ <A nombre=‘Gato’ />
+
+props.children tiene la capacidad de mostrar los elementos que estén en su padre
+
+———
+State: (stateful) un programa puede guardar un estado, cuando esta configurado para recordar los cambios, 
+modificaciones y eventos a lo largo de su uso.
+
+El props no se puede modificar, y lo que si se pueda sera con state
+
+class Contador extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      contador: 0
+    };
+  }
+
+  aumentar = () => { 
+    this.setState({
+      contador: this.state.contador + 1
+    })
+  }
+
+  render(){
+    return (<div>
+    <p>{this.state.contador}</p>
+    <button onClick={ this.aumentar } >Aumentar</button>
+    </div>);
+  }
+}
+
+———
+Formularios:
+
+class Formulario extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  syncChanges(value, property){
+    let state = {};
+    state[property] = value;
+    this.setState(state);
+  }
+
+  submitForm(){
+    console.log(this.state);
+  }
+
+  render(){
+    return (
+      <form>
+        <input 
+          onChange={(ev)=>{ this.syncChanges(ev.target.value, 'email' ) }}
+          type="email" 
+          value={this.state.email} 
+          placeholder="Email" />
+        <input 
+          onChange={(ev)=>{this.syncChanges(ev.target.value, 'password') }}
+          type="password" 
+          value={this.state.password}  
+          placeholder="******" />
+        <div>
+          <input 
+            onClick={ () => this.submitForm() }
+            type="submit" 
+            value="Iniciar sesion" />
+        </div>
+      </form>
+    );
+  }
+}
+
+———
+Colecciones (Arreglos)
+
+Con .map puedes iterar el arreglo y darle las propiedades que requieras
+this.state.articles.map((title)=>{
+    return <p>{title}</p>
+})
+
+class Blog extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      articles: [
+        "mi primer componente en react",
+        "introduccion react",
+        "que es"
+        ]
+    }
+  }
+  render(){
+    return (
+      <div>
+        {
+          this.state.articles.map((title)=>{
+            return <p>{title}</p>
+          })
+        }
+      </div>
+    )
+  }
+}
+———
+AJAX
+
+React tiene métodos de ciclo de vida en un componente, métodos especiales que podemos definir en un componente. Ejemplo: 
+Este se utiliza al inicio de vida de un componente, primero se llama al constructor y luego al componentDidMount.
+
+Coding de ejemplo para petición AJAX con promesas:
+
+class Blog extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      articles: []
+    };
+  }
+
+  componentDidMount(){
+    let promesa = fetch('https://jsonplaceholder.typicode.com/posts');
+    promesa.then(response => response.json()).then(data=>{
+      this.setState({ 
+        articles: data
+      })
+    })
+  }
+
+  render(){
+    return (
+      <div>
+        {
+          this.state.articles.map((article)=>{
+            return <p>{article.title}</p>
+          })
+        }
+      </div>
+    )
+  }
+}
+
+———
+React Hooks (Gancho)
+
+Sirven para agregarle funcionalidad a los componentes funcionales (functions), integrarte con el manejo de estado y con el ciclo de vida de un componente.
+
+Existen 2 tipos:
+- Hooks del framework, vienen predefinidos
+- Personalizados, vienen con las librerías
+
+Debes incluir “useState”
+import React, { Component, useState } from 'react';
+
+function Contador(props){
+  const [contador, setContador] = useState(1);
+  return (
+    <div>
+      <p>Conteo: {contador}</p>
+      <button onClick={ ()=> setContador(contador+1)}>Aumentar</button>
+    </div>
+  );  
+}
+
+- Es un poco mas simple en algunas cosas al componente tipo clase
+
+———
+Separar componentes en archivos
+
+- Siempre debes importar en cada archivo .js (import React from 'react’;)
+- Al final incluir export default Contador;
+
+Y en el archivo donde lo vas a utilizar lo declaras de la siguiente forma 
+
+import Contador from './Contador';
+
+——— 
+Base:
+- Lo que esta dentro de las llaves “{ }” se le hace una evaluación del código, allí se puede multiplicar, sumar, etc
+- Todas las class deben tener un constructor, y el props debe estar inicializado en el constructor
+- Se le llama programación reactiva cuando el virtual dom reacciona a los cambios 
+- Una buena practica puede ser que los elementos no dependan entre ellos, en React cada componente es independiente. Cuando un componente tiene necesidad de otro se rompe su independencia.
+- El constructor no debe ser tan largo, es mas difícil de probar y reemplazar
+
+———
+Conceptos:
+MVC (Modelo-Vista-Controlador): El modelo son los datos, vista es la interfaz y el controlador es la lógica de las funcionalidades.
+
+
+
+
+Siguiente investigacion:
+- Buscar los export default de archivos javascript
+- Promesas y llamadas asíncronas
+

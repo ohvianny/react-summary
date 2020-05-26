@@ -1,0 +1,9 @@
+Arquitectura
+    https://bezkoder.com/react-crud-web-api/
+    https://bezkoder.com/react-node-express-mysql/
+
+Buenas practicas:
+    https://www.freecodecamp.org/news/react-examples-reactjs/
+
+Codigos de ejemplos:
+    https://github.com/mlaursen/react-md

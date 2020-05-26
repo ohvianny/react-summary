@@ -1,0 +1,27 @@
+Leer: https://blog.bitsrc.io/structuring-a-react-project-a-definitive-guide-ac9a754df5eb
+
+- Los componentes tendran su nombre en Pascal Case (Ej: TinyButton). Esto para que sea facil identificar 
+un componente react
+- Un componente debe estar dentro de la carpeta /component y tener su propia subcarpeta. 
+Ejemplo: 
+
+/componentes
+    /TinyButton
+        TinyButton.js
+        index.js
+        style.css
+    /shared
+
+- Cada carpeta debe tener un archivo con su mismo nombre. Ej. /TinyButton/TinyButton.js
+- Para evitar importar de esta manera -> import { TinyButton } from './TinyButton/TinyButton'
+puedes incluir un index.js e incluirle 
+
+// components/TinyButton/index.js
+export * from './TinyButton'
+
+- Se creara una carpeta /pages donde se manejara aqui el enrutador, cada pagina es un componente de 
+una clase en react 
+- Generalmente los componentes que se encuentra en la carpeta /pages no son reutilizables 
+- Las carpetas y archivos se encuentran en lowercase (minuscula)
+
+- Tratar de crear siempre funciones en vez de clases, si empieza a crecer utilizar clase 

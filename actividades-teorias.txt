@@ -1,6 +1,0 @@
-Actividades:
-- Crear proyecto
-- Agregar bootstrap al proyecto
-- Crear componente header
-- Agregar Router, leer -> react-router-dom
-
